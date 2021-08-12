@@ -16,6 +16,7 @@
 		CDAD261A26C49C3300D1A5B5 /* LyricSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD261926C49C3300D1A5B5 /* LyricSearchTests.swift */; };
 		CDAD262426C49C3300D1A5B5 /* LyricSearchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD262326C49C3300D1A5B5 /* LyricSearchUITests.swift */; };
 		CDAD262626C49C3300D1A5B5 /* LyricSearchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD262526C49C3300D1A5B5 /* LyricSearchUITestsLaunchTests.swift */; };
+		CDAD263326C49CBE00D1A5B5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		CDAD261F26C49C3300D1A5B5 /* LyricSearchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LyricSearchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDAD262326C49C3300D1A5B5 /* LyricSearchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricSearchUITests.swift; sourceTree = "<group>"; };
 		CDAD262526C49C3300D1A5B5 /* LyricSearchUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricSearchUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		CDAD263526C49DCD00D1A5B5 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +81,8 @@
 		CDAD25F726C49C3100D1A5B5 = {
 			isa = PBXGroup;
 			children = (
+				CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */,
+				CDAD263526C49DCD00D1A5B5 /* info.plist */,
 				CDAD260226C49C3100D1A5B5 /* LyricSearch */,
 				CDAD261826C49C3300D1A5B5 /* LyricSearchTests */,
 				CDAD262226C49C3300D1A5B5 /* LyricSearchUITests */,
@@ -238,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDAD260B26C49C3200D1A5B5 /* Preview Assets.xcassets in Resources */,
+				CDAD263326C49CBE00D1A5B5 /* Config.xcconfig in Resources */,
 				CDAD260826C49C3200D1A5B5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,6 +311,7 @@
 /* Begin XCBuildConfiguration section */
 		CDAD262726C49C3300D1A5B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -366,6 +373,7 @@
 		};
 		CDAD262826C49C3300D1A5B5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -429,7 +437,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"LyricSearch/Preview Content\"";
 				DEVELOPMENT_TEAM = KP537WFKBH;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -459,7 +468,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"LyricSearch/Preview Content\"";
 				DEVELOPMENT_TEAM = KP537WFKBH;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
