@@ -17,6 +17,7 @@
 		CDAD262426C49C3300D1A5B5 /* LyricSearchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD262326C49C3300D1A5B5 /* LyricSearchUITests.swift */; };
 		CDAD262626C49C3300D1A5B5 /* LyricSearchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD262526C49C3300D1A5B5 /* LyricSearchUITestsLaunchTests.swift */; };
 		CDAD263326C49CBE00D1A5B5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */; };
+		CDAD263926C4A1C700D1A5B5 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDAD263826C4A1C700D1A5B5 /* SpotifyiOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +51,8 @@
 		CDAD262326C49C3300D1A5B5 /* LyricSearchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricSearchUITests.swift; sourceTree = "<group>"; };
 		CDAD262526C49C3300D1A5B5 /* LyricSearchUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricSearchUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		CDAD263526C49DCD00D1A5B5 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
+		CDAD263526C49DCD00D1A5B5 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		CDAD263826C4A1C700D1A5B5 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDAD263926C4A1C700D1A5B5 /* SpotifyiOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,8 +84,9 @@
 		CDAD25F726C49C3100D1A5B5 = {
 			isa = PBXGroup;
 			children = (
+				CDAD263726C4A19D00D1A5B5 /* Frameworks */,
 				CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */,
-				CDAD263526C49DCD00D1A5B5 /* info.plist */,
+				CDAD263526C49DCD00D1A5B5 /* Info.plist */,
 				CDAD260226C49C3100D1A5B5 /* LyricSearch */,
 				CDAD261826C49C3300D1A5B5 /* LyricSearchTests */,
 				CDAD262226C49C3300D1A5B5 /* LyricSearchUITests */,
@@ -136,6 +140,14 @@
 				CDAD262526C49C3300D1A5B5 /* LyricSearchUITestsLaunchTests.swift */,
 			);
 			path = LyricSearchUITests;
+			sourceTree = "<group>";
+		};
+		CDAD263726C4A19D00D1A5B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CDAD263826C4A1C700D1A5B5 /* SpotifyiOS.framework */,
+			);
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -437,8 +449,12 @@
 				DEVELOPMENT_ASSET_PATHS = "\"LyricSearch/Preview Content\"";
 				DEVELOPMENT_TEAM = KP537WFKBH;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/info.plist;
+				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -468,8 +484,12 @@
 				DEVELOPMENT_ASSET_PATHS = "\"LyricSearch/Preview Content\"";
 				DEVELOPMENT_TEAM = KP537WFKBH;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/info.plist;
+				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
