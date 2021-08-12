@@ -53,6 +53,7 @@
 		CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		CDAD263526C49DCD00D1A5B5 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		CDAD263826C4A1C700D1A5B5 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
+		CDAD263A26C4A41B00D1A5B5 /* LyricSearch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LyricSearch-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				CDAD263726C4A19D00D1A5B5 /* Frameworks */,
-				CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */,
-				CDAD263526C49DCD00D1A5B5 /* Info.plist */,
+				CDAD263B26C4A45100D1A5B5 /* Config */,
 				CDAD260226C49C3100D1A5B5 /* LyricSearch */,
 				CDAD261826C49C3300D1A5B5 /* LyricSearchTests */,
 				CDAD262226C49C3300D1A5B5 /* LyricSearchUITests */,
@@ -148,6 +148,16 @@
 				CDAD263826C4A1C700D1A5B5 /* SpotifyiOS.framework */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		CDAD263B26C4A45100D1A5B5 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				CDAD263A26C4A41B00D1A5B5 /* LyricSearch-Bridging-Header.h */,
+				CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */,
+				CDAD263526C49DCD00D1A5B5 /* Info.plist */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -377,8 +387,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "Config/LyricSearch-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -432,8 +444,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "Config/LyricSearch-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -454,7 +468,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/Info.plist;
+				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/Config/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -489,7 +503,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/Info.plist;
+				INFOPLIST_FILE = /Users/deborahnewberry/Documents/Projects/lyric_search_ios/LyricSearch/Config/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
