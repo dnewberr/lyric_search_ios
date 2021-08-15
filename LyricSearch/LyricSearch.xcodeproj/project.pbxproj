@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CD3B1B7226C8AE4800AB6BBB /* SpotifyAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B7126C8AE4800AB6BBB /* SpotifyAuthService.swift */; };
+		CD3B1B7526C8AEC900AB6BBB /* MusixMatchAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B7426C8AEC900AB6BBB /* MusixMatchAPIService.swift */; };
 		CDAD260426C49C3100D1A5B5 /* LyricSearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD260326C49C3100D1A5B5 /* LyricSearchApp.swift */; };
 		CDAD260626C49C3100D1A5B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD260526C49C3100D1A5B5 /* ContentView.swift */; };
 		CDAD260826C49C3200D1A5B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDAD260726C49C3200D1A5B5 /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		CD3B1B7126C8AE4800AB6BBB /* SpotifyAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAuthService.swift; sourceTree = "<group>"; };
+		CD3B1B7426C8AEC900AB6BBB /* MusixMatchAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusixMatchAPIService.swift; sourceTree = "<group>"; };
 		CDAD260026C49C3100D1A5B5 /* LyricSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LyricSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDAD260326C49C3100D1A5B5 /* LyricSearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricSearchApp.swift; sourceTree = "<group>"; };
 		CDAD260526C49C3100D1A5B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -96,6 +98,14 @@
 			path = Spotify;
 			sourceTree = "<group>";
 		};
+		CD3B1B7626C8AECC00AB6BBB /* MusixMatch */ = {
+			isa = PBXGroup;
+			children = (
+				CD3B1B7426C8AEC900AB6BBB /* MusixMatchAPIService.swift */,
+			);
+			path = MusixMatch;
+			sourceTree = "<group>";
+		};
 		CDAD25F726C49C3100D1A5B5 = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +135,7 @@
 				CDAD263E26C4A74900D1A5B5 /* SceneDelegate.swift */,
 				CD3B1B7326C8AE5C00AB6BBB /* Spotify */,
 				CDAD260526C49C3100D1A5B5 /* ContentView.swift */,
+				CD3B1B7626C8AECC00AB6BBB /* MusixMatch */,
 				CDAD260726C49C3200D1A5B5 /* Assets.xcassets */,
 				CDAD260C26C49C3200D1A5B5 /* Persistence.swift */,
 				CDAD260E26C49C3200D1A5B5 /* LyricSearch.xcdatamodeld */,
@@ -311,6 +322,7 @@
 				CDAD263F26C4A74900D1A5B5 /* SceneDelegate.swift in Sources */,
 				CD3B1B7226C8AE4800AB6BBB /* SpotifyAuthService.swift in Sources */,
 				CDAD260D26C49C3200D1A5B5 /* Persistence.swift in Sources */,
+				CD3B1B7526C8AEC900AB6BBB /* MusixMatchAPIService.swift in Sources */,
 				CDAD261026C49C3200D1A5B5 /* LyricSearch.xcdatamodeld in Sources */,
 				CDAD260626C49C3100D1A5B5 /* ContentView.swift in Sources */,
 				CDAD260426C49C3100D1A5B5 /* LyricSearchApp.swift in Sources */,

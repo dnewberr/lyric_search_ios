@@ -17,11 +17,28 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
 
+    @State private var showingAlert = false
+
+    @State private var titleQuery: String = ""
+    @State private var artistQuery: String = ""
+
     var body: some View {
         VStack {
             Button("Connect to Spotify") {
                 SpotifyAuthService.main.authorize()
             }
+            
+            TextField("Enter title", text: $titleQuery)
+            TextField("Enter artist", text: $artistQuery)
+            
+            Button("Search") {
+                guard !titleQuery.isEmpty && !artistQuery.isEmpty else {
+                    showingAlert = true
+                    return
+                }
+                beginSearch()
+            }
+            
             List {
                 ForEach(items) { item in
                     Text("Item at \(item.timestamp!, formatter: itemFormatter)")
@@ -37,9 +54,26 @@ struct ContentView: View {
                     Label("Add Item", systemImage: "plus")
                 }
             }
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Incomplete Info"), message: Text("Please fill out both the artist and song title."))
+            }
         }
     }
-
+    
+    private func beginSearch() {
+        let lyricsRequest = LyricsRequest(songTitle: titleQuery, artist: artistQuery)
+        let apiService = MusixMatchAPIService()
+        if #available(iOS 15.0.0, *) {
+            Task {
+                if let tracksFound = try? await apiService.search(request: lyricsRequest) {
+                    print(tracksFound)
+                }
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
     private func addItem() {
         withAnimation {
             let newItem = Item(context: viewContext)
