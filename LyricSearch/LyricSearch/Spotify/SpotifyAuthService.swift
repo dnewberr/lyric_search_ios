@@ -14,6 +14,9 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
     private override init() {
         super.init()
         currentPlayerStatePublisher
+            .removeDuplicates(by: { firstState, secondState in
+                return firstState.hash == secondState.hash
+            })
             .map { $0.track }
             .sink { [weak self] track in
                 self?.appRemote.imageAPI?.fetchImage(forItem: track, with: .zero, callback: { (response, error) in
@@ -58,8 +61,6 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
     }
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
-        debugPrint("Track name: %@", playerState.track.name)
-        currentImagePublisher.send(nil)
         currentPlayerStatePublisher.send(playerState)
     }
     
