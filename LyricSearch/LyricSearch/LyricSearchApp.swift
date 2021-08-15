@@ -14,8 +14,13 @@ struct LyricSearchApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            if #available(iOS 15.0.0, *) {
+                ContentView(lyricSearchViewModel: AsyncLyricSearchViewModel(apiService: MusixMatchAPIServiceImpl()))
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            } else {
+                ContentView(lyricSearchViewModel: DefaultLyricSearchViewModel())
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            }
         }
     }
 }

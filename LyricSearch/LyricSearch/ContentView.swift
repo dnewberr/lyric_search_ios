@@ -9,18 +9,21 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    private let lyricSearchViewModel: LyricSearchViewModel
+    
     @Environment(\.managedObjectContext) private var viewContext
-
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
 
     @State private var showingAlert = false
-
     @State private var titleQuery: String = ""
     @State private var artistQuery: String = ""
+    
+    init(lyricSearchViewModel: LyricSearchViewModel) {
+        self.lyricSearchViewModel = lyricSearchViewModel
+    }
 
     var body: some View {
         VStack {
@@ -61,17 +64,7 @@ struct ContentView: View {
     }
     
     private func beginSearch() {
-        let lyricsRequest = MMLyricsRequest(songTitle: titleQuery, artist: artistQuery)
-        let apiService = MusixMatchAPIService()
-        if #available(iOS 15.0.0, *) {
-            Task {
-                if let tracksFound = try? await apiService.search(request: lyricsRequest) {
-                    print(tracksFound)
-                }
-            }
-        } else {
-            // Fallback on earlier versions
-        }
+        _ = lyricSearchViewModel.getLyrics(artist: artistQuery, songTitle: titleQuery)
     }
     
     private func addItem() {
@@ -115,6 +108,12 @@ private let itemFormatter: DateFormatter = {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        if #available(iOS 15.0.0, *) {
+            ContentView(lyricSearchViewModel: AsyncLyricSearchViewModel(apiService: MusixMatchAPIServiceImpl()))
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        } else {
+            ContentView(lyricSearchViewModel: DefaultLyricSearchViewModel())
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        }
     }
 }
