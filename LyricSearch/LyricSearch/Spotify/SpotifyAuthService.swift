@@ -20,6 +20,8 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
         return appRemote
     }()
     
+    private(set) var currentPlayerState: SPTAppRemotePlayerState?
+    
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
         appRemote.playerAPI?.delegate = self
         appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
@@ -39,6 +41,7 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
         debugPrint("Track name: %@", playerState.track.name)
+        currentPlayerState = playerState
     }
     
     func authorize() {
@@ -48,12 +51,12 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
     func attemptToEstablishConnection(fromUrl url: URL) {
         let parameters = appRemote.authorizationParameters(from: url);
         
-        if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
-            appRemote.connectionParameters.accessToken = access_token
-            accessToken = access_token
-        } else if let error_description = parameters?[SPTAppRemoteErrorDescriptionKey] {
+        if let accessToken = parameters?[SPTAppRemoteAccessTokenKey] {
+            appRemote.connectionParameters.accessToken = accessToken
+            self.accessToken = accessToken
+        } else if let errorDescription = parameters?[SPTAppRemoteErrorDescriptionKey] {
             // Show the error
-            debugPrint(error_description)
+            debugPrint(errorDescription)
         }
     }
     

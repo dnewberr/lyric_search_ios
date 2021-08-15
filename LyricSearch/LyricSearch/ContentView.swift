@@ -23,6 +23,8 @@ struct ContentView: View {
     @State private var titleQuery: String = ""
     @State private var artistQuery: String = ""
     
+    @State private var currentSong: Song?
+    
     init(lyricSearchViewModel: LyricSearchViewModel) {
         self.lyricSearchViewModel = lyricSearchViewModel
     }
@@ -30,13 +32,16 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button("Connect to Spotify") {
-//                SpotifyAuthService.main.authorize()
-                presentLyrics.toggle()
+                SpotifyAuthService.main.authorize()
             }
-            
+            Spacer()
+            Button("Get current song") {
+                getAndPresentSong()
+            }
+            NowPlayingView(song: $currentSong)
+            Spacer()
             TextField("Enter title", text: $titleQuery)
             TextField("Enter artist", text: $artistQuery)
-            
             Button("Search") {
                 guard !titleQuery.isEmpty && !artistQuery.isEmpty else {
                     showingAlert.toggle()
@@ -66,6 +71,10 @@ struct ContentView: View {
                 LyricsView(lyrics: lyrics ?? MMLyrics())
             }
         }
+    }
+    private func getAndPresentSong() {
+        guard let currentTrack = SpotifyAuthService.main.currentPlayerState?.track else { return }
+        
     }
     
     private func beginSearch() {
@@ -123,5 +132,39 @@ struct ContentView_Previews: PreviewProvider {
             ContentView(lyricSearchViewModel: DefaultLyricSearchViewModel())
                 .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
         }
+    }
+}
+
+struct NowPlayingView: View {
+    private var song: Binding<Song?>
+    
+    init(song: Binding<Song?>) {
+        self.song = song
+    }
+    
+    var body: some View {
+        VStack {
+            if let song = song.wrappedValue {
+                Text(song.track.name)
+                Text(song.track.artist.name)
+                if let image = song.image {
+                    Image(uiImage: image)
+                }
+            } else {
+                Text("Nothing playing")
+            }
+        }
+    }
+    
+}
+
+
+class Song: ObservableObject {
+    let track: SPTAppRemoteTrack
+    let image: UIImage?
+    
+    init(track: SPTAppRemoteTrack, image: UIImage?) {
+        self.track = track
+        self.image = image
     }
 }
