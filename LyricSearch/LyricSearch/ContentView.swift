@@ -17,6 +17,8 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
 
+    @State private var lyrics: MMLyrics?
+    @State private var presentLyrics = false
     @State private var showingAlert = false
     @State private var titleQuery: String = ""
     @State private var artistQuery: String = ""
@@ -28,7 +30,8 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button("Connect to Spotify") {
-                SpotifyAuthService.main.authorize()
+//                SpotifyAuthService.main.authorize()
+                presentLyrics.toggle()
             }
             
             TextField("Enter title", text: $titleQuery)
@@ -36,7 +39,7 @@ struct ContentView: View {
             
             Button("Search") {
                 guard !titleQuery.isEmpty && !artistQuery.isEmpty else {
-                    showingAlert = true
+                    showingAlert.toggle()
                     return
                 }
                 beginSearch()
@@ -59,12 +62,17 @@ struct ContentView: View {
             }
             .alert(isPresented: $showingAlert) {
                 Alert(title: Text("Incomplete Info"), message: Text("Please fill out both the artist and song title."))
+            }.sheet(isPresented: $presentLyrics) {
+                LyricsView(lyrics: lyrics ?? MMLyrics())
             }
         }
     }
     
     private func beginSearch() {
-        _ = lyricSearchViewModel.getLyrics(artist: artistQuery, songTitle: titleQuery)
+        if let lyrics = lyricSearchViewModel.getLyrics(artist: artistQuery, songTitle: titleQuery) {
+            self.lyrics = lyrics
+            presentLyrics.toggle()
+        }
     }
     
     private func addItem() {

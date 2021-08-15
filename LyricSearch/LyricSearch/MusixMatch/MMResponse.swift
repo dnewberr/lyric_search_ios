@@ -8,5 +8,5 @@
 protocol MMResponse: Codable {}
 
 struct MMLyricsResponse: MMResponse, Codable {
-    let lyrics: [MMLyrics]
+    let lyrics: MMLyrics
 }

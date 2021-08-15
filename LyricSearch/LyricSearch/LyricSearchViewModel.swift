@@ -8,13 +8,13 @@
 import Foundation
 
 protocol LyricSearchViewModel {
-    func getLyrics(artist: String, songTitle: String) -> [MMLyrics]
+    func getLyrics(artist: String, songTitle: String) -> MMLyrics?
 }
 
 struct DefaultLyricSearchViewModel: LyricSearchViewModel {
-    func getLyrics(artist: String, songTitle: String) -> [MMLyrics] {
+    func getLyrics(artist: String, songTitle: String) -> MMLyrics? {
         // TODO
-        return []
+        return nil
     }
 }
 
@@ -22,16 +22,16 @@ struct DefaultLyricSearchViewModel: LyricSearchViewModel {
 struct AsyncLyricSearchViewModel: LyricSearchViewModel {
     let apiService: MusixMatchAPIService
     
-    func getLyrics(artist: String, songTitle: String) -> [MMLyrics] {
+    func getLyrics(artist: String, songTitle: String) -> MMLyrics? {
         let lyricsRequest = MMLyricsRequest(songTitle: songTitle, artist: artist)
-        Task { () -> [MMLyrics] in
+        Task { () -> MMLyrics? in
             if let lyricsFound = try? await apiService.getLyrics(lyricsRequest) {
                 print(lyricsFound)
                 return lyricsFound
             }
-            return []
+            return nil
         }
         
-        return []
+        return nil
     }
 }
