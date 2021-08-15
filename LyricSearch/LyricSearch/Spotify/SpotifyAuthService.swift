@@ -8,8 +8,23 @@
 import Combine
 
 final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
+    private var cancellableBag = Set<AnyCancellable>()
+    
     static let main: SpotifyAuthService = SpotifyAuthService()
-    private override init() {}
+    private override init() {
+        super.init()
+        currentPlayerStatePublisher
+            .map { $0.track }
+            .sink { [weak self] track in
+                self?.appRemote.imageAPI?.fetchImage(forItem: track, with: .zero, callback: { (response, error) in
+                    if let error = error {
+                        print(error)
+                    }
+                    self?.currentImagePublisher.send(response as? UIImage)
+                })
+            }
+            .store(in: &cancellableBag)
+    }
     
     private let spotifyClientID = Bundle.stringValue(forKey: .spotifyClientId)
     private let spotifyRedirectURL = URL(string: "dnewberr-lyric-search://spotify-login-callback")!
@@ -23,6 +38,7 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
     }()
     
     let currentPlayerStatePublisher = PassthroughSubject<SPTAppRemotePlayerState, Never>()
+    let currentImagePublisher = PassthroughSubject<UIImage?, Never>()
     
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
         appRemote.playerAPI?.delegate = self
@@ -43,6 +59,7 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
         debugPrint("Track name: %@", playerState.track.name)
+        currentImagePublisher.send(nil)
         currentPlayerStatePublisher.send(playerState)
     }
     
@@ -72,13 +89,5 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
         if let _ = appRemote.connectionParameters.accessToken {
             appRemote.connect()
         }
-    }
-}
-
-extension SpotifyAuthService {
-    func fetchImage(for track: SPTAppRemoteTrack, callback: @escaping (UIImage?, Error?) -> ()) {
-        appRemote.imageAPI?.fetchImage(forItem: track, with: .zero, callback: { (response, error) in
-            callback(response as? UIImage, error)
-        })
     }
 }

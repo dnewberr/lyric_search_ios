@@ -66,36 +66,32 @@ final class SongViewModel: ObservableObject {
     struct Output {
         var trackTitleName: AnyPublisher<String, Never>
         var trackArtistName: AnyPublisher<String, Never>
-//        var trackImage: AnyPublisher<UIImage, Never>
+        var trackImage: AnyPublisher<UIImage, Never>
     }
 
-    @Published var trackTitleName : String = "ggg"
-    @Published var trackArtistName : String = "ggg"
-//    @Published var trackImage : UIImage = UIImage()
+    @Published var trackTitleName: String = ""
+    @Published var trackArtistName: String = ""
+    @Published var trackImage: UIImage = UIImage()
 
     func bind() -> Output {
         let trackPublisher = SpotifyAuthService.main.currentPlayerStatePublisher
             .map { $0.track }
         let trackTitleName = trackPublisher
             .map { $0.name }
-            .replaceError(with: "An error occurred")
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
         let trackArtistName = trackPublisher
             .map { $0.artist.name }
-            .replaceError(with: "An error occurred")
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
-//
-//        let trackImage = URLSession.shared.dataTaskPublisher(for: URL(string: "https://www.google.it")!)
-//            .map { _ in UIImage(systemName: "folder") }
-//            .replaceError(with: UIImage(systemName: "error"))
-//            .receive(on: DispatchQueue.main)
-//            .eraseToAnyPublisher()
+        let trackImage = SpotifyAuthService.main.currentImagePublisher
+            .replaceNil(with: UIImage(systemName: "nosign")!)
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
 
         return Output(trackTitleName: trackTitleName,
-                      trackArtistName: trackArtistName)
-//                      trackImage: trackImage)
+                      trackArtistName: trackArtistName,
+                      trackImage: trackImage)
     }
 }
 struct SongView: View {
@@ -113,16 +109,16 @@ struct SongView: View {
         bindStruct.trackArtistName
             .assign(to: \.trackArtistName, on: viewModel)
             .store(in: &cancellableBag)
-//        bindStruct.trackImage
-//            .assign(to: \.trackImage, on: viewModel)
-//            .store(in: &cancellableBag)
+        bindStruct.trackImage
+            .assign(to: \.trackImage, on: viewModel)
+            .store(in: &cancellableBag)
     }
 
     var body: some View {
         VStack {
             Text(viewModel.trackTitleName)
             Text(viewModel.trackArtistName)
-//            Image(uiImage: viewModel.trackImage)
+            Image(uiImage: viewModel.trackImage)
         }
     }
 }
