@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
@@ -17,19 +18,24 @@ struct ContentView: View {
     private var items: FetchedResults<Item>
 
     var body: some View {
-        List {
-            ForEach(items) { item in
-                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+        VStack {
+            Button("Connect to Spotify") {
+                SpotifyAuthService.main.authorize()
             }
-            .onDelete(perform: deleteItems)
-        }
-        .toolbar {
-            #if os(iOS)
-            EditButton()
-            #endif
+            List {
+                ForEach(items) { item in
+                    Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+                }
+                .onDelete(perform: deleteItems)
+            }
+            .toolbar {
+                #if os(iOS)
+                EditButton()
+                #endif
 
-            Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
+                Button(action: addItem) {
+                    Label("Add Item", systemImage: "plus")
+                }
             }
         }
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD3B1B7226C8AE4800AB6BBB /* SpotifyAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B7126C8AE4800AB6BBB /* SpotifyAuthService.swift */; };
 		CDAD260426C49C3100D1A5B5 /* LyricSearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD260326C49C3100D1A5B5 /* LyricSearchApp.swift */; };
 		CDAD260626C49C3100D1A5B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD260526C49C3100D1A5B5 /* ContentView.swift */; };
 		CDAD260826C49C3200D1A5B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDAD260726C49C3200D1A5B5 /* Assets.xcassets */; };
@@ -18,6 +19,8 @@
 		CDAD262626C49C3300D1A5B5 /* LyricSearchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD262526C49C3300D1A5B5 /* LyricSearchUITestsLaunchTests.swift */; };
 		CDAD263326C49CBE00D1A5B5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */; };
 		CDAD263926C4A1C700D1A5B5 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDAD263826C4A1C700D1A5B5 /* SpotifyiOS.framework */; };
+		CDAD263F26C4A74900D1A5B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD263E26C4A74900D1A5B5 /* SceneDelegate.swift */; };
+		CDAD264126C8AB3900D1A5B5 /* ConfigKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD264026C8AB3900D1A5B5 /* ConfigKeys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CD3B1B7126C8AE4800AB6BBB /* SpotifyAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAuthService.swift; sourceTree = "<group>"; };
 		CDAD260026C49C3100D1A5B5 /* LyricSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LyricSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDAD260326C49C3100D1A5B5 /* LyricSearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricSearchApp.swift; sourceTree = "<group>"; };
 		CDAD260526C49C3100D1A5B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,6 +58,8 @@
 		CDAD263526C49DCD00D1A5B5 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		CDAD263826C4A1C700D1A5B5 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		CDAD263A26C4A41B00D1A5B5 /* LyricSearch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LyricSearch-Bridging-Header.h"; sourceTree = "<group>"; };
+		CDAD263E26C4A74900D1A5B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		CDAD264026C8AB3900D1A5B5 /* ConfigKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigKeys.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CD3B1B7326C8AE5C00AB6BBB /* Spotify */ = {
+			isa = PBXGroup;
+			children = (
+				CD3B1B7126C8AE4800AB6BBB /* SpotifyAuthService.swift */,
+			);
+			path = Spotify;
+			sourceTree = "<group>";
+		};
 		CDAD25F726C49C3100D1A5B5 = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				CDAD260326C49C3100D1A5B5 /* LyricSearchApp.swift */,
+				CDAD263E26C4A74900D1A5B5 /* SceneDelegate.swift */,
+				CD3B1B7326C8AE5C00AB6BBB /* Spotify */,
 				CDAD260526C49C3100D1A5B5 /* ContentView.swift */,
 				CDAD260726C49C3200D1A5B5 /* Assets.xcassets */,
 				CDAD260C26C49C3200D1A5B5 /* Persistence.swift */,
@@ -156,6 +172,7 @@
 				CDAD263A26C4A41B00D1A5B5 /* LyricSearch-Bridging-Header.h */,
 				CDAD263226C49CBE00D1A5B5 /* Config.xcconfig */,
 				CDAD263526C49DCD00D1A5B5 /* Info.plist */,
+				CDAD264026C8AB3900D1A5B5 /* ConfigKeys.swift */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -291,10 +308,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDAD263F26C4A74900D1A5B5 /* SceneDelegate.swift in Sources */,
+				CD3B1B7226C8AE4800AB6BBB /* SpotifyAuthService.swift in Sources */,
 				CDAD260D26C49C3200D1A5B5 /* Persistence.swift in Sources */,
 				CDAD261026C49C3200D1A5B5 /* LyricSearch.xcdatamodeld in Sources */,
 				CDAD260626C49C3100D1A5B5 /* ContentView.swift in Sources */,
 				CDAD260426C49C3100D1A5B5 /* LyricSearchApp.swift in Sources */,
+				CDAD264126C8AB3900D1A5B5 /* ConfigKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
