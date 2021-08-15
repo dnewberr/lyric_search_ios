@@ -61,7 +61,7 @@ struct ContentView: View {
     }
     
     private func beginSearch() {
-        let lyricsRequest = LyricsRequest(songTitle: titleQuery, artist: artistQuery)
+        let lyricsRequest = MMLyricsRequest(songTitle: titleQuery, artist: artistQuery)
         let apiService = MusixMatchAPIService()
         if #available(iOS 15.0.0, *) {
             Task {
