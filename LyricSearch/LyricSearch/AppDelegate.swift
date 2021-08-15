@@ -1,6 +1,6 @@
 ////
-////  SceneDelegate.swift
-////  SceneDelegate
+////  AppDelegate.swift
+////  AppDelegate
 ////
 ////  Created by Deborah Newberry on 8/11/21.
 ////
