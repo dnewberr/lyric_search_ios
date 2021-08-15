@@ -5,6 +5,8 @@
 //  Created by Deborah Newberry on 8/14/21.
 //
 
+import Combine
+
 final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
     static let main: SpotifyAuthService = SpotifyAuthService()
     private override init() {}
@@ -20,7 +22,7 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
         return appRemote
     }()
     
-    private(set) var currentPlayerState: SPTAppRemotePlayerState?
+    let currentPlayerStatePublisher = PassthroughSubject<SPTAppRemotePlayerState, Never>()
     
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
         appRemote.playerAPI?.delegate = self
@@ -41,7 +43,7 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
         debugPrint("Track name: %@", playerState.track.name)
-        currentPlayerState = playerState
+        currentPlayerStatePublisher.send(playerState)
     }
     
     func authorize() {
@@ -70,5 +72,13 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
         if let _ = appRemote.connectionParameters.accessToken {
             appRemote.connect()
         }
+    }
+}
+
+extension SpotifyAuthService {
+    func fetchImage(for track: SPTAppRemoteTrack, callback: @escaping (UIImage?, Error?) -> ()) {
+        appRemote.imageAPI?.fetchImage(forItem: track, with: .zero, callback: { (response, error) in
+            callback(response as? UIImage, error)
+        })
     }
 }
