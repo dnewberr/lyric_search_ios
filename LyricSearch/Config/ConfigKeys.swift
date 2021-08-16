@@ -1,5 +1,6 @@
 enum ConfigKey: String {
     case musixMatchAPIKey = "MUSIX_MATCH_API_KEY"
+    case rapidAPIKey = "RAPID_API_KEY"
     case spotifyClientId = "SPOTIFY_CLIENT_ID"
 }
 

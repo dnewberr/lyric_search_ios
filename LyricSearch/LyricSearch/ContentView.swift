@@ -9,23 +9,17 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    private let lyricSearchViewModel: LyricSearchViewModel
-    
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
+    let service = GeniusAPIService()
 
     @State private var lyrics: MMLyrics?
     @State private var presentLyrics = false
     @State private var showingAlert = false
-    @State private var titleQuery: String = ""
-    @State private var artistQuery: String = ""
-    
-    init(lyricSearchViewModel: LyricSearchViewModel) {
-        self.lyricSearchViewModel = lyricSearchViewModel
-    }
+    @State private var query: String = ""
 
     var body: some View {
         VStack {
@@ -35,15 +29,17 @@ struct ContentView: View {
             Spacer()
             SongView(viewModel: SongViewModel())
             Spacer()
-            TextField("Enter title", text: $titleQuery)
-            TextField("Enter artist", text: $artistQuery)
+            TextField("Search here", text: $query)
+//            TextField("Enter artist", text: $artistQuery)
             Button("Search") {
-                guard !titleQuery.isEmpty && !artistQuery.isEmpty else {
-                    showingAlert.toggle()
-                    return
-                }
+//                guard !titleQuery.isEmpty && !artistQuery.isEmpty else {
+//                    showingAlert.toggle()
+//                    return
+//                }
                 beginSearch()
             }
+            
+            LyricSearchResultView(viewModel: LyricSearchResultViewModel(service: service))
             
             List {
                 ForEach(items) { item in
@@ -69,10 +65,7 @@ struct ContentView: View {
     }
     
     private func beginSearch() {
-        if let lyrics = lyricSearchViewModel.getLyrics(artist: artistQuery, songTitle: titleQuery) {
-            self.lyrics = lyrics
-            presentLyrics.toggle()
-        }
+        service.search(query: query)
     }
     
     private func addItem() {
@@ -116,12 +109,15 @@ private let itemFormatter: DateFormatter = {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        if #available(iOS 15.0.0, *) {
-            ContentView(lyricSearchViewModel: AsyncLyricSearchViewModel(apiService: MusixMatchAPIServiceImpl()))
-                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-        } else {
-            ContentView(lyricSearchViewModel: DefaultLyricSearchViewModel())
-                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-        }
+//        if #available(iOS 15.0.0, *) {
+//            ContentView(lyricSearchViewModel: AsyncLyricSearchViewModel(apiService: MusixMatchAPIServiceImpl()))
+//                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//        } else {
+//            ContentView(lyricSearchViewModel: DefaultLyricSearchViewModel())
+//                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//        }
+        ContentView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+                
     }
 }

@@ -5,8 +5,8 @@
 //  Created by Deborah Newberry on 8/15/21.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 struct SongView: View {
     private var cancellableBag = Set<AnyCancellable>()
@@ -32,7 +32,7 @@ struct SongView: View {
             Color.gray.opacity(0.1).ignoresSafeArea()
             VStack {
                 Text("Now Playing")
-                    .font(.title)
+                    .font(.largeTitle)
                 Image(uiImage: viewModel.trackImage)
                     .cornerRadius(8)
                     .padding([.top, .bottom], 8)
@@ -60,7 +60,7 @@ final class SongViewModel: ObservableObject {
 
     @Published var trackTitleName: String = "No title"
     @Published var trackArtistName: String = "No artist"
-    @Published var trackImage: UIImage = UIImage()
+    @Published var trackImage: UIImage = UIImage(systemName: "nosign")!
 
     func bind() -> Output {
         let trackPublisher = SpotifyAuthService.main.currentPlayerStatePublisher

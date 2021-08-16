@@ -14,19 +14,11 @@ struct LyricSearchApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if #available(iOS 15.0.0, *) {
-                ContentView(lyricSearchViewModel: AsyncLyricSearchViewModel(apiService: MusixMatchAPIServiceImpl()))
-                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                    .onOpenURL { url in
-                        SpotifyAuthService.main.attemptToEstablishConnection(fromUrl: url)
-                    }
-            } else {
-                ContentView(lyricSearchViewModel: DefaultLyricSearchViewModel())
-                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                    .onOpenURL { url in
-                        SpotifyAuthService.main.attemptToEstablishConnection(fromUrl: url)
-                    }
-            }
+            ContentView()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .onOpenURL { url in
+                    SpotifyAuthService.main.attemptToEstablishConnection(fromUrl: url)
+                }
         }
         .onChange(of: scenePhase) { newScenePhase in
               switch newScenePhase {
