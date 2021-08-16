@@ -70,6 +70,10 @@ final class LyricSearchResultViewModel: ObservableObject {
         self.service = service
     }
 
+    func search(query: String) {
+        service.search(query: query)
+    }
+    
     func bind() -> Output {
         let responsePublisher = service.responsePublisher
         let geniusSongTitle = responsePublisher
