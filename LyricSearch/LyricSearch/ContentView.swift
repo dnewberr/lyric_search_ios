@@ -8,6 +8,33 @@
 import SwiftUI
 import CoreData
 
+
+enum LyricType: Int, CaseIterable, Identifiable {
+    case original
+    case romanized
+    case translation
+    
+    var id: Int {
+        return rawValue
+    }
+    
+    var displayName: String {
+        switch self {
+        case .original: return "Original"
+        case .romanized: return "Romanized"
+        case .translation: return "Translation"
+        }
+    }
+    
+    var queryExtension: String {
+        switch self {
+        case .original: return ""
+        case .romanized: return "Romanized"
+        case .translation: return "Translation"
+        }
+    }
+}
+
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
@@ -19,6 +46,8 @@ struct ContentView: View {
     
     @State var buttonTitle: String = "Connect to Spotify"
     @State var buttonDisabled: Bool = false
+    
+    @State var lyricType: LyricType = .original
 
     var body: some View {
         ZStack {
@@ -29,12 +58,25 @@ struct ContentView: View {
                 }
                 .disabled(buttonDisabled)
                 Spacer()
-                SongView(viewModel: songViewModel)
+                HStack {
+                    SongView(viewModel: songViewModel)
+                    Text("Style: \(lyricType.displayName)")
+                }
+                Picker(selection: $lyricType, label: Text("")) {
+                    ForEach(LyricType.allCases) {
+                        Text($0.displayName).tag($0)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .onChange(of: lyricType) { lyricType in
+                    lyricSearchResultViewModel.updateCurrentSearch(for: lyricType)
+                }
                 LyricSearchResultView(viewModel: lyricSearchResultViewModel)
-            }.padding(16)
+            }
+            .padding(16)
         }
         .onReceive(SpotifyAuthService.main.currentPlayerStatePublisher) { currentState in
-            lyricSearchResultViewModel.search(query: currentState.track.searchableQuery)
+            lyricSearchResultViewModel.search(query: currentState.track.searchableQuery, lyricType: lyricType)
         }
         .onReceive(SpotifyAuthService.main.isConnectedPublisher) { isConnected in
             buttonTitle = isConnected ? "Connected to Spotify" : "Connect to Spotify"

@@ -29,10 +29,11 @@ final class GeniusAPIService {
         static let query = "q"
     }
     
-    func search(query: String) {
+    func search(query: String, lyricType: LyricType) {
+        let fullQuery = "\(query) \(lyricType.queryExtension)"
         var urlComponents = URLComponents(string: Endpoints.search)
         urlComponents?.queryItems = [
-            URLQueryItem(name: Keys.query, value: query)
+            URLQueryItem(name: Keys.query, value: fullQuery)
         ]
         guard let url = urlComponents?.url else {
             fatalError("Malformed URL")
@@ -52,7 +53,7 @@ final class GeniusAPIService {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             guard let data = data else {
-                print("no data")
+                self.errorPublisher.send(.noResults)
                 return
             }
             do {
@@ -60,7 +61,7 @@ final class GeniusAPIService {
                 if let song = decodedResponse.response.hits.first?.result {
                     self.errorPublisher.send(nil)
                     self.responsePublisher.send(song)
-                    print("sending \(song)")
+                    print("🎶 \(song)")
                 } else {
                     self.errorPublisher.send(.noResults)
                 }

@@ -42,6 +42,7 @@ struct LyricSearchResultView: View {
 
 final class LyricSearchResultViewModel: ObservableObject {
     private let service: GeniusAPIService
+    private var lastQuery: String?
     
     struct Output {
         var geniusSongURLPublisher: AnyPublisher<URL?, Never>
@@ -52,8 +53,14 @@ final class LyricSearchResultViewModel: ObservableObject {
         self.service = service
     }
 
-    func search(query: String) {
-        service.search(query: query)
+    func search(query: String, lyricType: LyricType) {
+        lastQuery = query
+        service.search(query: query, lyricType: lyricType)
+    }
+    
+    func updateCurrentSearch(for lyricType: LyricType) {
+        guard let lastQuery = self.lastQuery else { return }
+        search(query: lastQuery, lyricType: lyricType)
     }
     
     func bind() -> Output {
