@@ -23,20 +23,16 @@ struct SongView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.gray.opacity(0.1).ignoresSafeArea()
-            HStack {
-                Image(uiImage: songImage)
-                    .cornerRadius(8)
-                    .shadow(radius: 4)
-                VStack {
-                    Text(songArtist)
-                        .font(.headline)
-                    Text(songTitle)
-                        .font(.subheadline)
-                }
+        HStack {
+            Image(uiImage: songImage)
+                .cornerRadius(8)
+                .shadow(radius: 4)
+            VStack {
+                Text(songArtist)
+                    .font(.headline)
+                Text(songTitle)
+                    .font(.subheadline)
             }
-            .padding(8)
         }
         .cornerRadius(8)
         .onReceive(output.trackImagePublisher) { image in
@@ -48,7 +44,7 @@ struct SongView: View {
         .onReceive(output.trackArtistNamePublisher) { artist in
             self.songArtist = artist
         }
-        .frame(height: 100)
+        
     }
 }
 

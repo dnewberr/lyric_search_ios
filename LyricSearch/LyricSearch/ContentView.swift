@@ -21,20 +21,18 @@ struct ContentView: View {
     @State var buttonDisabled: Bool = false
 
     var body: some View {
-        VStack(alignment: .leading)  {
-            Button(buttonTitle) {
-                SpotifyAuthService.main.authorize()
-            }
-            .disabled(buttonDisabled)
-            Spacer()
-            HStack {
-                Text("Lyrics")
-                    .font(.largeTitle)
+        ZStack {
+            Color.gray.opacity(0.1).ignoresSafeArea()
+            VStack(alignment: .leading)  {
+                Button(buttonTitle) {
+                    SpotifyAuthService.main.authorize()
+                }
+                .disabled(buttonDisabled)
+                Spacer()
                 SongView(viewModel: songViewModel)
-            }
-            LyricSearchResultView(viewModel: lyricSearchResultViewModel)
+                LyricSearchResultView(viewModel: lyricSearchResultViewModel)
+            }.padding(16)
         }
-        .padding(16)
         .onReceive(SpotifyAuthService.main.currentPlayerStatePublisher) { currentState in
             lyricSearchResultViewModel.search(query: currentState.track.searchableQuery)
         }

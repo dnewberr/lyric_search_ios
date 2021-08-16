@@ -23,10 +23,8 @@ struct LyricSearchResultView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.gray.opacity(0.1).ignoresSafeArea()
+        VStack {
             WebView(url: url)
-                .padding(16)
         }
         .cornerRadius(8)
         .alert(isPresented: $presentError) {
