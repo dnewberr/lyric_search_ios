@@ -27,6 +27,8 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
                 })
             }
             .store(in: &cancellableBag)
+        
+        isConnectedPublisher.send(false)
     }
     
     private let spotifyClientID = Bundle.stringValue(forKey: .spotifyClientId)
@@ -42,8 +44,10 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
     
     let currentPlayerStatePublisher = PassthroughSubject<SPTAppRemotePlayerState, Never>()
     let currentImagePublisher = PassthroughSubject<UIImage?, Never>()
+    let isConnectedPublisher = PassthroughSubject<Bool, Never>()
     
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
+        isConnectedPublisher.send(true)
         appRemote.playerAPI?.delegate = self
         appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
             if let error = error {
@@ -53,10 +57,12 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
+        isConnectedPublisher.send(false)
         print("disconnected")
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
+        isConnectedPublisher.send(false)
         print("failed")
     }
     

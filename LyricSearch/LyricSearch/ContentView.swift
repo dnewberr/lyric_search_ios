@@ -16,18 +16,29 @@ struct ContentView: View {
     private var items: FetchedResults<Item>
     private let songViewModel = SongViewModel()
     private let lyricSearchResultViewModel = LyricSearchResultViewModel()
+    
+    @State var buttonTitle: String = "Connect to Spotify"
+    @State var buttonDisabled: Bool = false
 
     var body: some View {
-        VStack {
-            Button("Connect to Spotify") {
+        VStack(alignment: .leading)  {
+            Button(buttonTitle) {
                 SpotifyAuthService.main.authorize()
             }
+            .disabled(buttonDisabled)
             Spacer()
             SongView(viewModel: songViewModel)
-            Spacer()
+            Text("Lyrics")
+                .font(.largeTitle)
             LyricSearchResultView(viewModel: lyricSearchResultViewModel)
-        }.onReceive(SpotifyAuthService.main.currentPlayerStatePublisher) { currentState in
+        }
+        .padding(16)
+        .onReceive(SpotifyAuthService.main.currentPlayerStatePublisher) { currentState in
             lyricSearchResultViewModel.search(query: currentState.track.searchableQuery)
+        }
+        .onReceive(SpotifyAuthService.main.isConnectedPublisher) { isConnected in
+            buttonTitle = isConnected ? "Connected to Spotify" : "Connect to Spotify"
+            buttonDisabled = isConnected
         }
     }
 }

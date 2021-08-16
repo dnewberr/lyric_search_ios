@@ -22,14 +22,11 @@ struct LyricSearchResultView: View {
         self.viewModel = viewModel
         self.output = viewModel.bind()
     }
-
+    
     var body: some View {
         ZStack {
             Color.gray.opacity(0.1).ignoresSafeArea()
             VStack {
-                Text("Result")
-                    .font(.largeTitle)
-                    .padding([.bottom], 8)
                 Text(songTitle)
                     .font(.headline)
                     .padding([.bottom], 8)
@@ -38,22 +35,21 @@ struct LyricSearchResultView: View {
                     .padding([.bottom], 8)
             }
             .padding(16)
-            .alert(isPresented: $presentError) {
-                Alert(title: Text("Error"), message: Text(currentError?.localizedDescription ?? ""))
-            }
-            .onReceive(output.geniusSongTitlePublisher) { songTitle in
-                self.songTitle = songTitle ?? "N/A"
-            }
-            .onReceive(output.geniusSongURLPublisher) { url in
-                self.url = url ?? "N/A"
-            }
-            .onReceive(output.errorPublisher) { error in
-                self.currentError = error
-                self.presentError = error != nil
-            }
         }
         .cornerRadius(8)
-        .padding(16)
+        .alert(isPresented: $presentError) {
+            Alert(title: Text("Error"), message: Text(currentError?.localizedDescription ?? ""))
+        }
+        .onReceive(output.geniusSongTitlePublisher) { songTitle in
+            self.songTitle = songTitle ?? "N/A"
+        }
+        .onReceive(output.geniusSongURLPublisher) { url in
+            self.url = url ?? "N/A"
+        }
+        .onReceive(output.errorPublisher) { error in
+            self.currentError = error
+            self.presentError = error != nil
+        }
     }
 }
 

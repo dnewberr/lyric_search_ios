@@ -14,20 +14,18 @@ struct SongView: View {
     let output: SongViewModel.Output
     
     @State var songImage = UIImage(systemName: "nosign")!
-    @State var songTitle = ""
-    @State var songArtist = ""
+    @State var songTitle = "No title"
+    @State var songArtist = "No artist"
 
     init(viewModel: SongViewModel) {
         self.viewModel = viewModel
         self.output = viewModel.bind()
     }
-
+    
     var body: some View {
         ZStack {
             Color.gray.opacity(0.1).ignoresSafeArea()
             VStack {
-                Text("Now Playing")
-                    .font(.largeTitle)
                 Image(uiImage: songImage)
                     .cornerRadius(8)
                     .padding([.top, .bottom], 8)
@@ -42,7 +40,6 @@ struct SongView: View {
             .padding(16)
         }
         .cornerRadius(8)
-        .padding(16)
         .onReceive(output.trackImagePublisher) { image in
             self.songImage = image
         }
@@ -52,6 +49,7 @@ struct SongView: View {
         .onReceive(output.trackArtistNamePublisher) { artist in
             self.songArtist = artist
         }
+        .frame(height: 300)
     }
 }
 
