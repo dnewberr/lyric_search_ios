@@ -27,9 +27,11 @@ struct ContentView: View {
             }
             .disabled(buttonDisabled)
             Spacer()
-            SongView(viewModel: songViewModel)
-            Text("Lyrics")
-                .font(.largeTitle)
+            HStack {
+                Text("Lyrics")
+                    .font(.largeTitle)
+                SongView(viewModel: songViewModel)
+            }
             LyricSearchResultView(viewModel: lyricSearchResultViewModel)
         }
         .padding(16)
