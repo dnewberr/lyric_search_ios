@@ -10,21 +10,17 @@ import SwiftUI
 
 struct LyricSearchResultView: View {
     private var cancellableBag = Set<AnyCancellable>()
-    @ObservedObject var viewModel: LyricSearchResultViewModel
+    private let viewModel: LyricSearchResultViewModel
+    private let output: LyricSearchResultViewModel.Output
+    
+    @State private var songTitle: String = ""
+    @State private var url: String = ""
+    @State private var currentError: Error? = nil
+    @State private var presentError: Bool = false
 
     init(viewModel: LyricSearchResultViewModel) {
         self.viewModel = viewModel
-
-        let bindStruct = viewModel.bind()
-        bindStruct.geniusSongTitlePublisher
-            .assign(to: \.geniusSongTitle, on: viewModel)
-            .store(in: &cancellableBag)
-        bindStruct.geniusSongURLPublisher
-            .assign(to: \.geniusSongURL, on: viewModel)
-            .store(in: &cancellableBag)
-        bindStruct.errorPublisher
-            .assign(to: \.requestError, on: viewModel)
-            .store(in: &cancellableBag)
+        self.output = viewModel.bind()
     }
 
     var body: some View {
@@ -34,17 +30,27 @@ struct LyricSearchResultView: View {
                 Text("Result")
                     .font(.largeTitle)
                     .padding([.bottom], 8)
-                Text(viewModel.geniusSongTitle ?? "N/A")
+                Text(songTitle)
                     .font(.headline)
                     .padding([.bottom], 8)
-                Text(viewModel.geniusSongURL ?? "N/A")
+                Text(url)
                     .font(.subheadline)
-                    .padding([.bottom], 8)
-                Text(viewModel.requestError?.localizedDescription ?? "No error")
-                    .font(.callout)
                     .padding([.bottom], 8)
             }
             .padding(16)
+            .alert(isPresented: $presentError) {
+                Alert(title: Text("Error"), message: Text(currentError?.localizedDescription ?? ""))
+            }
+            .onReceive(output.geniusSongTitlePublisher) { songTitle in
+                self.songTitle = songTitle ?? "N/A"
+            }
+            .onReceive(output.geniusSongURLPublisher) { url in
+                self.url = url ?? "N/A"
+            }
+            .onReceive(output.errorPublisher) { error in
+                self.currentError = error
+                self.presentError = error != nil
+            }
         }
         .cornerRadius(8)
         .padding(16)
@@ -57,13 +63,9 @@ final class LyricSearchResultViewModel: ObservableObject {
     struct Output {
         var geniusSongTitlePublisher: AnyPublisher<String?, Never>
         var geniusSongURLPublisher: AnyPublisher<String?, Never>
-        var errorPublisher: AnyPublisher<Error?, Never>
+        var errorPublisher: AnyPublisher<GeniusAPIError?, Never>
     }
 
-    @Published var geniusSongTitle: String?
-    @Published var geniusSongURL: String?
-    @Published var requestError: Error?
-    
     init(service: GeniusAPIService = GeniusAPIService()) {
         self.service = service
     }
@@ -75,7 +77,7 @@ final class LyricSearchResultViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
         let geniusSongURL = responsePublisher
-            .map { $0.webPath }
+            .map { $0.url }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
         let errorPublisher = service.errorPublisher

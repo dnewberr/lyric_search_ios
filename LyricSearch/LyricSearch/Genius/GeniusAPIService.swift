@@ -7,11 +7,17 @@
 
 import Combine
 
+enum GeniusAPIError: Error {
+    case noResults
+    case decodingError(_ error: Error)
+    case apiError(_ error: Error)
+}
+
 final class GeniusAPIService {
     private let apiKey = Bundle.stringValue(forKey: .rapidAPIKey)
     
     let responsePublisher = PassthroughSubject<GeniusSong, Never>()
-    let errorPublisher = PassthroughSubject<Error?, Never>()
+    let errorPublisher = PassthroughSubject<GeniusAPIError?, Never>()
     
     private struct Endpoints {
         static let search = "https://genius.p.rapidapi.com/search"
@@ -38,7 +44,7 @@ final class GeniusAPIService {
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let self = self else { return }
             if let error = error {
-                self.errorPublisher.send(error)
+                self.errorPublisher.send(.apiError(error))
                 return
             }
             
@@ -54,11 +60,12 @@ final class GeniusAPIService {
                 if let song = decodedResponse.response.hits.first?.result {
                     self.errorPublisher.send(nil)
                     self.responsePublisher.send(song)
+                    print("sending \(song)")
                 } else {
-                    print("hits empty")
+                    self.errorPublisher.send(.noResults)
                 }
             } catch {
-                self.errorPublisher.send(error)
+                self.errorPublisher.send(.decodingError(error))
             }
         }.resume()
     }
@@ -83,7 +90,7 @@ struct GeniusSong: Codable {
     let fullTitle: String?
     let title: String?
     let titleWithFeatured: String?
-    let webPath: String?
+    let url: String?
 //    "song_art_primary_color":"#bc9142"
 //    "song_art_secondary_color":"#392c14"
 //    "song_art_text_color":"#fff"
