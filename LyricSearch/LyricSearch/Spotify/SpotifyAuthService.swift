@@ -19,7 +19,7 @@ final class SpotifyAuthService: NSObject, SPTAppRemoteDelegate, SPTAppRemotePlay
             })
             .map { $0.track }
             .sink { [weak self] track in
-                self?.appRemote.imageAPI?.fetchImage(forItem: track, with: .zero, callback: { (response, error) in
+                self?.appRemote.imageAPI?.fetchImage(forItem: track, with: .init(width: 200, height: 200), callback: { (response, error) in
                     if let error = error {
                         print(error)
                     }

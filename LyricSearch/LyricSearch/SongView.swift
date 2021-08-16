@@ -10,21 +10,16 @@ import SwiftUI
 
 struct SongView: View {
     private var cancellableBag = Set<AnyCancellable>()
-    @ObservedObject var viewModel: SongViewModel
+    let viewModel: SongViewModel
+    let output: SongViewModel.Output
+    
+    @State var songImage = UIImage(systemName: "nosign")!
+    @State var songTitle = ""
+    @State var songArtist = ""
 
     init(viewModel: SongViewModel) {
         self.viewModel = viewModel
-
-        let bindStruct = viewModel.bind()
-        bindStruct.trackTitleName
-            .assign(to: \.trackTitleName, on: viewModel)
-            .store(in: &cancellableBag)
-        bindStruct.trackArtistName
-            .assign(to: \.trackArtistName, on: viewModel)
-            .store(in: &cancellableBag)
-        bindStruct.trackImage
-            .assign(to: \.trackImage, on: viewModel)
-            .store(in: &cancellableBag)
+        self.output = viewModel.bind()
     }
 
     var body: some View {
@@ -33,14 +28,14 @@ struct SongView: View {
             VStack {
                 Text("Now Playing")
                     .font(.largeTitle)
-                Image(uiImage: viewModel.trackImage)
+                Image(uiImage: songImage)
                     .cornerRadius(8)
                     .padding([.top, .bottom], 8)
                     .shadow(radius: 4)
-                Text(viewModel.trackTitleName)
+                Text(songArtist)
                     .font(.headline)
                     .padding([.top], 8)
-                Text(viewModel.trackArtistName)
+                Text(songTitle)
                     .font(.subheadline)
                     .padding([.bottom], 8)
             }
@@ -48,38 +43,45 @@ struct SongView: View {
         }
         .cornerRadius(8)
         .padding(16)
+        .onReceive(output.trackImagePublisher) { image in
+            self.songImage = image
+        }
+        .onReceive(output.trackTitleNamePublisher) { title in
+            self.songTitle = title
+        }
+        .onReceive(output.trackArtistNamePublisher) { artist in
+            self.songArtist = artist
+        }
     }
 }
 
 final class SongViewModel: ObservableObject {
     struct Output {
-        var trackTitleName: AnyPublisher<String, Never>
-        var trackArtistName: AnyPublisher<String, Never>
-        var trackImage: AnyPublisher<UIImage, Never>
+        var trackTitleNamePublisher: AnyPublisher<String, Never>
+        var trackArtistNamePublisher: AnyPublisher<String, Never>
+        var trackImagePublisher: AnyPublisher<UIImage, Never>
     }
-
-    @Published var trackTitleName: String = "No title"
-    @Published var trackArtistName: String = "No artist"
-    @Published var trackImage: UIImage = UIImage(systemName: "nosign")!
 
     func bind() -> Output {
         let trackPublisher = SpotifyAuthService.main.currentPlayerStatePublisher
             .map { $0.track }
-        let trackTitleName = trackPublisher
+        let trackTitleNamePublisher = trackPublisher
             .map { $0.name }
+            .replaceNil(with: "N/A")
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
-        let trackArtistName = trackPublisher
+        let trackArtistNamePublisher = trackPublisher
             .map { $0.artist.name }
+            .replaceNil(with: "N/A")
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
-        let trackImage = SpotifyAuthService.main.currentImagePublisher
+        let trackImagePublisher = SpotifyAuthService.main.currentImagePublisher
             .replaceNil(with: UIImage(systemName: "nosign")!)
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
 
-        return Output(trackTitleName: trackTitleName,
-                      trackArtistName: trackArtistName,
-                      trackImage: trackImage)
+        return Output(trackTitleNamePublisher: trackTitleNamePublisher,
+                      trackArtistNamePublisher: trackArtistNamePublisher,
+                      trackImagePublisher: trackImagePublisher)
     }
 }
