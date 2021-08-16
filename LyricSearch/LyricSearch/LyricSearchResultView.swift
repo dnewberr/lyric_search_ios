@@ -14,8 +14,7 @@ struct LyricSearchResultView: View {
     private let output: LyricSearchResultViewModel.Output
     
     @State private var url: URL?
-    @State private var currentError: Error? = nil
-    @State private var presentError: Bool = false
+    @State private var currentError: GeniusAPIError? = nil
 
     init(viewModel: LyricSearchResultViewModel) {
         self.viewModel = viewModel
@@ -24,18 +23,19 @@ struct LyricSearchResultView: View {
     
     var body: some View {
         VStack {
-            WebView(url: url)
+            if let error = currentError {
+                Text(error.message)
+                Spacer()
+            } else {
+                WebView(url: url)
+            }
         }
         .cornerRadius(8)
-        .alert(isPresented: $presentError) {
-            Alert(title: Text("Error"), message: Text(currentError?.localizedDescription ?? ""))
-        }
         .onReceive(output.geniusSongURLPublisher) { url in
             self.url = url
         }
         .onReceive(output.errorPublisher) { error in
             self.currentError = error
-            self.presentError = error != nil
         }
     }
 }

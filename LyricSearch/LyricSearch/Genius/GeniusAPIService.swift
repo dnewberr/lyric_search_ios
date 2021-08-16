@@ -11,6 +11,17 @@ enum GeniusAPIError: Error {
     case noResults
     case decodingError(_ error: Error)
     case apiError(_ error: Error)
+    
+    var message: String {
+        switch self {
+        case .noResults:
+            return "No results found."
+        case let .decodingError(error):
+            return "Something went wrong when reading output: \(error.localizedDescription)"
+        case let .apiError(error):
+            return "Something went wrong when querying: \(error.localizedDescription)"
+        }
+    }
 }
 
 final class GeniusAPIService {
