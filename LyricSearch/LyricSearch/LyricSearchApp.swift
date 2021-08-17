@@ -14,11 +14,23 @@ struct LyricSearchApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .onOpenURL { url in
-                    SpotifyAuthService.main.attemptToEstablishConnection(fromUrl: url)
-                }
+            TabView {
+                ContentView()
+                    .tabItem {
+                        Image(systemName: "play.circle")
+                        Text("Now Playing")
+                    }
+                
+                SavedSongsView()
+                    .tabItem {
+                        Image(systemName: "square.and.arrow.down")
+                        Text("Saved Songs")
+                    }
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            }
+            .onOpenURL { url in
+                SpotifyAuthService.main.attemptToEstablishConnection(fromUrl: url)
+            }
         }
         .onChange(of: scenePhase) { newScenePhase in
               switch newScenePhase {
