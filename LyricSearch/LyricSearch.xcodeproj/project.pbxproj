@@ -13,11 +13,10 @@
 		CD3B1B7B26C8C3C000AB6BBB /* MMLyrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B7A26C8C3C000AB6BBB /* MMLyrics.swift */; };
 		CD3B1B7D26C8C3FC00AB6BBB /* MMResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B7C26C8C3FC00AB6BBB /* MMResponse.swift */; };
 		CD3B1B7F26C8C46100AB6BBB /* MMRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B7E26C8C46100AB6BBB /* MMRequest.swift */; };
-		CD3B1B8326C8C55B00AB6BBB /* LyricSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B8226C8C55B00AB6BBB /* LyricSearchViewModel.swift */; };
 		CD3B1B8526C8C78C00AB6BBB /* LyricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B8426C8C78C00AB6BBB /* LyricsView.swift */; };
 		CD3B1B8926C9BBCA00AB6BBB /* SongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B8826C9BBCA00AB6BBB /* SongView.swift */; };
 		CD3B1B8C26C9CD0B00AB6BBB /* GeniusAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B8B26C9CD0B00AB6BBB /* GeniusAPIService.swift */; };
-		CD3B1B8E26CA26CF00AB6BBB /* LyricSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B8D26CA26CF00AB6BBB /* LyricSearchResultView.swift */; };
+		CD3B1B8E26CA26CF00AB6BBB /* LyricSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B8D26CA26CF00AB6BBB /* LyricSearchResultViewModel.swift */; };
 		CD3B1B9026CA350200AB6BBB /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1B8F26CA350200AB6BBB /* WebView.swift */; };
 		CD3B1BA826CB7EC300AB6BBB /* Color+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3B1BA726CB7EC300AB6BBB /* Color+Helpers.swift */; };
 		CDAD260426C49C3100D1A5B5 /* LyricSearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD260326C49C3100D1A5B5 /* LyricSearchApp.swift */; };
@@ -58,11 +57,10 @@
 		CD3B1B7A26C8C3C000AB6BBB /* MMLyrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMLyrics.swift; sourceTree = "<group>"; };
 		CD3B1B7C26C8C3FC00AB6BBB /* MMResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMResponse.swift; sourceTree = "<group>"; };
 		CD3B1B7E26C8C46100AB6BBB /* MMRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMRequest.swift; sourceTree = "<group>"; };
-		CD3B1B8226C8C55B00AB6BBB /* LyricSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricSearchViewModel.swift; sourceTree = "<group>"; };
 		CD3B1B8426C8C78C00AB6BBB /* LyricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsView.swift; sourceTree = "<group>"; };
 		CD3B1B8826C9BBCA00AB6BBB /* SongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongView.swift; sourceTree = "<group>"; };
 		CD3B1B8B26C9CD0B00AB6BBB /* GeniusAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeniusAPIService.swift; sourceTree = "<group>"; };
-		CD3B1B8D26CA26CF00AB6BBB /* LyricSearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricSearchResultView.swift; sourceTree = "<group>"; };
+		CD3B1B8D26CA26CF00AB6BBB /* LyricSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricSearchResultViewModel.swift; sourceTree = "<group>"; };
 		CD3B1B8F26CA350200AB6BBB /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		CD3B1BA726CB7EC300AB6BBB /* Color+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Helpers.swift"; sourceTree = "<group>"; };
 		CDAD260026C49C3100D1A5B5 /* LyricSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LyricSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,8 +172,7 @@
 				CDAD260526C49C3100D1A5B5 /* ContentView.swift */,
 				CD3B1BA726CB7EC300AB6BBB /* Color+Helpers.swift */,
 				CDAD260326C49C3100D1A5B5 /* LyricSearchApp.swift */,
-				CD3B1B8D26CA26CF00AB6BBB /* LyricSearchResultView.swift */,
-				CD3B1B8226C8C55B00AB6BBB /* LyricSearchViewModel.swift */,
+				CD3B1B8D26CA26CF00AB6BBB /* LyricSearchResultViewModel.swift */,
 				CD3B1B8426C8C78C00AB6BBB /* LyricsView.swift */,
 				CDAD260C26C49C3200D1A5B5 /* Persistence.swift */,
 				CD3B1B8826C9BBCA00AB6BBB /* SongView.swift */,
@@ -373,9 +370,8 @@
 				CD3B1B7526C8AEC900AB6BBB /* MusixMatchAPIService.swift in Sources */,
 				CDAD261026C49C3200D1A5B5 /* LyricSearch.xcdatamodeld in Sources */,
 				CD3B1BA826CB7EC300AB6BBB /* Color+Helpers.swift in Sources */,
-				CD3B1B8326C8C55B00AB6BBB /* LyricSearchViewModel.swift in Sources */,
 				CD3B1B7826C8C3AF00AB6BBB /* MMTrack.swift in Sources */,
-				CD3B1B8E26CA26CF00AB6BBB /* LyricSearchResultView.swift in Sources */,
+				CD3B1B8E26CA26CF00AB6BBB /* LyricSearchResultViewModel.swift in Sources */,
 				CD3B1B8C26C9CD0B00AB6BBB /* GeniusAPIService.swift in Sources */,
 				CD3B1B9026CA350200AB6BBB /* WebView.swift in Sources */,
 				CD3B1B7D26C8C3FC00AB6BBB /* MMResponse.swift in Sources */,
