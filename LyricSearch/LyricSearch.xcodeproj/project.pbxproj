@@ -158,6 +158,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		CD3B1BAE26CB85AF00AB6BBB /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				CDAD260E26C49C3200D1A5B5 /* LyricSearch.xcdatamodeld */,
+				CDAD260C26C49C3200D1A5B5 /* Persistence.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		CDAD25F726C49C3100D1A5B5 = {
 			isa = PBXGroup;
 			children = (
@@ -188,12 +197,11 @@
 				CDAD260326C49C3100D1A5B5 /* LyricSearchApp.swift */,
 				CD3B1B8D26CA26CF00AB6BBB /* LyricSearchResultViewModel.swift */,
 				CD3B1B8426C8C78C00AB6BBB /* LyricsView.swift */,
-				CDAD260C26C49C3200D1A5B5 /* Persistence.swift */,
+				CD3B1BAE26CB85AF00AB6BBB /* CoreData */,
 				CD3B1B8826C9BBCA00AB6BBB /* SongView.swift */,
 				CD3B1B8F26CA350200AB6BBB /* WebView.swift */,
 				CDAD260726C49C3200D1A5B5 /* Assets.xcassets */,
 				CD3B1B8A26C9CCFD00AB6BBB /* Genius */,
-				CDAD260E26C49C3200D1A5B5 /* LyricSearch.xcdatamodeld */,
 				CD3B1B7626C8AECC00AB6BBB /* MusixMatch */,
 				CDAD260926C49C3200D1A5B5 /* Preview Content */,
 				CD3B1B7326C8AE5C00AB6BBB /* Spotify */,
