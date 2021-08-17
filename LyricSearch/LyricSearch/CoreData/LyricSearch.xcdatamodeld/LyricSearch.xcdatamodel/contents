@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19197" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
+    <entity name="SavedArtist" representedClassName="SavedArtist" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="artistSong" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SavedSong" inverseName="songArtist" inverseEntity="SavedSong"/>
+    </entity>
+    <entity name="SavedLyrics" representedClassName="SavedLyrics" syncable="YES" codeGenerationType="class">
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="lyricSong" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SavedSong" inverseName="songLyrics" inverseEntity="SavedSong"/>
+    </entity>
+    <entity name="SavedSong" representedClassName="SavedSong" syncable="YES" codeGenerationType="class">
+        <attribute name="artistId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lyricsId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="songArtist" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SavedArtist" inverseName="artistSong" inverseEntity="SavedArtist"/>
+        <relationship name="songLyrics" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SavedLyrics" inverseName="lyricSong" inverseEntity="SavedLyrics"/>
     </entity>
     <elements>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
+        <element name="SavedSong" positionX="-63" positionY="-18" width="128" height="134"/>
+        <element name="SavedArtist" positionX="-54" positionY="18" width="128" height="74"/>
+        <element name="SavedLyrics" positionX="-36" positionY="63" width="128" height="74"/>
     </elements>
 </model>

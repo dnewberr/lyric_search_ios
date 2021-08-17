@@ -13,9 +13,20 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+        let itemIds: [Int64] = [0, 1, 2, 3, 4]
+        itemIds.forEach { id in
+            let newLyrics = SavedLyrics(context: viewContext)
+            newLyrics.id = id
+            newLyrics.content = "<b>These aren't real lyrics.</b>"
+            let newArtist = SavedArtist(context: viewContext)
+            newArtist.id = id
+            newArtist.name = "Saved artist"
+            let newSong = SavedSong(context: viewContext)
+            newSong.timestamp = Date()
+            newSong.title = "Song title"
+            newSong.id = id
+            newSong.songLyrics = newLyrics
+            newSong.songArtist = newArtist
         }
         do {
             try viewContext.save()

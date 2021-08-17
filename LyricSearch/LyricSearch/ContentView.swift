@@ -38,9 +38,9 @@ enum LyricType: Int, CaseIterable, Identifiable {
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \SavedSong.timestamp, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<Item>
+    private var items: FetchedResults<SavedSong>
     private let songViewModel = SongViewModel()
     private let lyricSearchResultViewModel: LyricSearchResultViewModel
     private let lyricSearchResultViewModelOutput: LyricSearchResultViewModel.Output
