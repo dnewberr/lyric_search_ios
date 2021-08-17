@@ -6,41 +6,8 @@
 //
 
 import SwiftUI
-import CoreData
-
-
-enum LyricType: Int, CaseIterable, Identifiable {
-    case original
-    case romanized
-    case translation
-    
-    var id: Int {
-        return rawValue
-    }
-    
-    var displayName: String {
-        switch self {
-        case .original: return "Original"
-        case .romanized: return "Romanized"
-        case .translation: return "Translation"
-        }
-    }
-    
-    var queryExtension: String {
-        switch self {
-        case .original: return ""
-        case .romanized: return "Romanized"
-        case .translation: return "Translation"
-        }
-    }
-}
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \SavedSong.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<SavedSong>
     private let songViewModel = SongViewModel()
     private let lyricSearchResultViewModel: LyricSearchResultViewModel
     private let lyricSearchResultViewModelOutput: LyricSearchResultViewModel.Output
