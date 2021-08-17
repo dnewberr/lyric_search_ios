@@ -42,46 +42,77 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
     private let songViewModel = SongViewModel()
-    private let lyricSearchResultViewModel = LyricSearchResultViewModel()
+    private let lyricSearchResultViewModel: LyricSearchResultViewModel
+    private let lyricSearchResultViewModelOutput: LyricSearchResultViewModel.Output
     
-    @State var buttonTitle: String = "Connect to Spotify"
-    @State var buttonDisabled: Bool = false
-    
+    @State var isConnectedToSpotify: Bool = false
     @State var lyricType: LyricType = .original
+    
+    private static let defaultBackgroundColor = Color.gray
+    private static let defaultTextColor = Color.black
+    
+    @State var textColor: Color = ContentView.defaultTextColor
+    @State var backgroundColor: Color = ContentView.defaultBackgroundColor
+    
+    
+    @State private var webViewUrl: URL?
+    @State private var currentLyricsError: GeniusAPIError? = nil
+    
+    init() {
+        self.lyricSearchResultViewModel = LyricSearchResultViewModel()
+        self.lyricSearchResultViewModelOutput = lyricSearchResultViewModel.bind()
+    }
 
     var body: some View {
-        ZStack {
-            Color.gray.opacity(0.1).ignoresSafeArea()
-            VStack(alignment: .leading)  {
-                Button(buttonTitle) {
+        VStack(alignment: .leading)  {
+            if !isConnectedToSpotify {
+                Button("Connect to Spotify") {
                     SpotifyAuthService.main.authorize()
                 }
-                .disabled(buttonDisabled)
-                Spacer()
-                HStack {
-                    SongView(viewModel: songViewModel)
-                    Text("Style: \(lyricType.displayName)")
-                }
-                Picker(selection: $lyricType, label: Text("")) {
-                    ForEach(LyricType.allCases) {
-                        Text($0.displayName).tag($0)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: lyricType) { lyricType in
-                    lyricSearchResultViewModel.updateCurrentSearch(for: lyricType)
-                }
-                LyricSearchResultView(viewModel: lyricSearchResultViewModel)
+                .font(.largeTitle)
+            } else {
+                SongView(viewModel: songViewModel)
+                    .foregroundColor(textColor)
             }
-            .padding(16)
+            Picker(selection: $lyricType, label: Text("Lyric Style")) {
+                ForEach(LyricType.allCases) {
+                    Text($0.displayName).tag($0)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .onChange(of: lyricType) { lyricType in
+                lyricSearchResultViewModel.updateCurrentSearch(for: lyricType)
+            }
+            if let error = currentLyricsError {
+                Text(error.message)
+                Spacer()
+            } else {
+                WebView(url: webViewUrl)
+            }
         }
         .onReceive(SpotifyAuthService.main.currentPlayerStatePublisher) { currentState in
             lyricSearchResultViewModel.search(query: currentState.track.searchableQuery, lyricType: lyricType)
         }
         .onReceive(SpotifyAuthService.main.isConnectedPublisher) { isConnected in
-            buttonTitle = isConnected ? "Connected to Spotify" : "Connect to Spotify"
-            buttonDisabled = isConnected
+            isConnectedToSpotify = isConnected
         }
+        .onReceive(lyricSearchResultViewModelOutput.geniusSongURLPublisher) { url in
+            webViewUrl = url
+        }
+        .onReceive(lyricSearchResultViewModelOutput.errorPublisher) { error in
+            currentLyricsError = error
+        }
+        .onReceive(lyricSearchResultViewModelOutput.geniusSongPublisher) { song in
+            backgroundColor = Color(hex: song.songArtPrimaryColor) ?? ContentView.defaultBackgroundColor
+            textColor = Color(hex: song.songArtSecondaryColor) ?? ContentView.defaultTextColor
+            
+            // Ensure the text and bg are not both light
+            if backgroundColor.isLight && textColor.isLight {
+                textColor = ContentView.defaultTextColor
+            }
+        }
+        .padding(16)
+        .background(backgroundColor.opacity(0.25).ignoresSafeArea())
     }
 }
 

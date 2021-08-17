@@ -27,7 +27,7 @@ struct SongView: View {
             Image(uiImage: songImage)
                 .cornerRadius(8)
                 .shadow(radius: 4)
-            VStack {
+            VStack(alignment: .leading) {
                 Text(songArtist)
                     .font(.headline)
                 Text(songTitle)

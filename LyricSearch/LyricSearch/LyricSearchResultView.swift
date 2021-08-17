@@ -46,6 +46,7 @@ final class LyricSearchResultViewModel: ObservableObject {
     
     struct Output {
         var geniusSongURLPublisher: AnyPublisher<URL?, Never>
+        var geniusSongPublisher: AnyPublisher<GeniusSong, Never>
         var errorPublisher: AnyPublisher<GeniusAPIError?, Never>
     }
 
@@ -64,7 +65,10 @@ final class LyricSearchResultViewModel: ObservableObject {
     }
     
     func bind() -> Output {
-        let geniusSongURL = service.responsePublisher
+        let geniusSongPublisher = service.responsePublisher
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+        let geniusSongURL = geniusSongPublisher
             .map { song -> URL? in
                 guard let urlString = song.url else {
                     return nil
@@ -79,6 +83,7 @@ final class LyricSearchResultViewModel: ObservableObject {
             .eraseToAnyPublisher()
 
         return Output(geniusSongURLPublisher: geniusSongURL,
+                      geniusSongPublisher: geniusSongPublisher,
                       errorPublisher: errorPublisher)
     }
 }
