@@ -103,9 +103,8 @@ struct GeniusSong: Codable {
     let title: String?
     let titleWithFeatured: String?
     let url: String?
-//    "song_art_primary_color":"#bc9142"
-//    "song_art_secondary_color":"#392c14"
-//    "song_art_text_color":"#fff"
-//    "primary_artist":{...}9 items
+    let songArtPrimaryColor: String?
+    let songArtSecondaryColor: String?
+    let songArtTextColor: String?
 }
 
