@@ -25,13 +25,16 @@ enum GeniusAPIError: Error {
 }
 
 final class GeniusAPIService {
-    private let apiKey = Bundle.stringValue(forKey: .rapidAPIKey)
-    
     let responsePublisher = PassthroughSubject<GeniusSong, Never>()
     let errorPublisher = PassthroughSubject<GeniusAPIError?, Never>()
     
     private struct Endpoints {
         static let search = "https://genius.p.rapidapi.com/search"
+    }
+    
+    private struct HeaderValues {
+        static let apiKey = Bundle.stringValue(forKey: .rapidAPIKey)
+        static let apiHost = "genius.p.rapidapi.com"
     }
     
     private struct Keys {
@@ -51,8 +54,8 @@ final class GeniusAPIService {
         }
         
         var request = URLRequest(url: url)
-        request.addValue(apiKey, forHTTPHeaderField: Keys.apiKey)
-        request.addValue("genius.p.rapidapi.com", forHTTPHeaderField: Keys.apiHost)
+        request.addValue(HeaderValues.apiKey, forHTTPHeaderField: Keys.apiKey)
+        request.addValue(HeaderValues.apiHost, forHTTPHeaderField: Keys.apiHost)
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let self = self else { return }
             if let error = error {
