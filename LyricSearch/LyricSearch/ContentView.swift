@@ -11,6 +11,8 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
+    private let webViewHelper: WebViewHelper
+    private let webViewHelperOutput: WebViewHelper.Output
     private let songViewModel = SongViewModel()
     private let lyricSearchResultViewModel: LyricSearchResultViewModel
     private let lyricSearchResultViewModelOutput: LyricSearchResultViewModel.Output
@@ -24,6 +26,7 @@ struct ContentView: View {
     @State var backgroundColor: Color = ContentView.defaultBackgroundColor
     
     @State private var webViewUrl: URL?
+    @State private var currentSongHTML: String?
     @State private var currentLyricsError: GeniusAPIError? = nil
     @State private var isCurrentSongSaved = false
     @State private var currentSong: GeniusSong?
@@ -31,6 +34,8 @@ struct ContentView: View {
     init() {
         self.lyricSearchResultViewModel = LyricSearchResultViewModel()
         self.lyricSearchResultViewModelOutput = lyricSearchResultViewModel.bind()
+        self.webViewHelper = WebViewHelper()
+        self.webViewHelperOutput = webViewHelper.bind()
     }
 
     var body: some View {
@@ -65,7 +70,7 @@ struct ContentView: View {
                 Text(error.message)
                 Spacer()
             } else {
-                WebView(url: webViewUrl)
+                WebView(url: webViewUrl, helper: webViewHelper)
                     .cornerRadius(8)
             }
         }
@@ -89,10 +94,13 @@ struct ContentView: View {
             updateSaveIcon(song: song)
             currentSong = song
         }
+        .onReceive(webViewHelperOutput.htmlPublisher, perform: { newHTML in
+            currentSongHTML = newHTML
+        })
         .padding(16)
         .background(backgroundColor.opacity(0.25).ignoresSafeArea())
     }
-    
+
     private func didTapSaveButton() {
         guard let currentSong = currentSong else {
             return
@@ -105,7 +113,8 @@ struct ContentView: View {
             // add and save TODO
             let newLyrics = SavedLyrics(context: viewContext)
             newLyrics.id = currentSong.id
-            newLyrics.content = "<b>These aren't real lyrics.</b>"
+            newLyrics.content = currentSongHTML
+            print(currentSongHTML ?? "NONE")
             
             let newSong = SavedSong(context: viewContext)
             newSong.timestamp = Date()
@@ -124,6 +133,25 @@ struct ContentView: View {
         do {
             try viewContext.save()
             isCurrentSongSaved.toggle()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+    
+    private func saveHTMLToCurrentSong(_ html: String) {
+        guard let currentSong = currentSong else {
+            return
+        }
+        
+        let fetchRequest = FetchRequest<SavedSong>(entity: SavedSong.entity(),
+                                                   sortDescriptors: [],
+                                                   predicate: NSPredicate(format: "id = %d", currentSong.id))
+        fetchRequest.wrappedValue.first?.songLyrics?.content = html
+        do {
+            try viewContext.save()
         } catch {
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
