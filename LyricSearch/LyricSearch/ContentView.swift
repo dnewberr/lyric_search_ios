@@ -88,6 +88,7 @@ struct ContentView: View {
                 Spacer()
             } else {
                 WebView(url: webViewUrl)
+                    .cornerRadius(8)
             }
         }
         .onReceive(SpotifyAuthService.main.currentPlayerStatePublisher) { currentState in
@@ -120,7 +121,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-                
     }
 }
 
