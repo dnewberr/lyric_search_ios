@@ -15,16 +15,26 @@ struct SavedSongsView: View {
     private var savedSongs: FetchedResults<SavedSong>
     
     var body: some View {
-        List {
-            ForEach(savedSongs) { savedSong in
-                Text(savedSong.title ?? "??")
+        VStack(alignment: .leading) {
+            Text("Saved songs")
+                .font(.largeTitle)
+            List {
+                ForEach(savedSongs) { savedSong in
+                    VStack {
+                        Text(savedSong.songArtist?.name ?? "Unknown")
+                            .font(.headline)
+                        Text(savedSong.title ?? "Unknown")
+                            .font(.subheadline)
+                    }
+                }
+                .onDelete(perform: deleteItems)
             }
-            .onDelete(perform: deleteItems)
-        }
-        .toolbar {
-            #if os(iOS)
-            EditButton()
-            #endif
+            .toolbar {
+                #if os(iOS)
+                EditButton()
+                #endif
+            }
+            .padding(16)
         }
     }
     private func deleteItems(offsets: IndexSet) {

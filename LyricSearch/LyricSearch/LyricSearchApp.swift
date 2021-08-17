@@ -20,6 +20,7 @@ struct LyricSearchApp: App {
                         Image(systemName: "play.circle")
                         Text("Now Playing")
                     }
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 
                 SavedSongsView()
                     .tabItem {
