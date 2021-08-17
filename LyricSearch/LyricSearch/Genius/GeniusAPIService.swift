@@ -82,29 +82,3 @@ final class GeniusAPIService {
         }.resume()
     }
 }
-
-
-struct GeniusResponse: Codable {
-    let response: GeniusHits
-}
-
-struct GeniusHits: Codable {
-    let hits: [GeniusHit]
-}
-
-struct GeniusHit: Codable {
-    let result: GeniusSong
-}
-
-struct GeniusSong: Codable {
-    let id: Int
-    let apiPath: String?
-    let fullTitle: String?
-    let title: String?
-    let titleWithFeatured: String?
-    let url: String?
-    let songArtPrimaryColor: String?
-    let songArtSecondaryColor: String?
-    let songArtTextColor: String?
-}
-
