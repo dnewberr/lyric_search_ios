@@ -8,7 +8,7 @@
 import Foundation
 
 // Response Boilerplate
-struct GeniusResponse: Codable {
+struct GeniusSearchResponse: Codable {
     let response: GeniusHits
 }
 

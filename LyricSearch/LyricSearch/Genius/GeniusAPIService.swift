@@ -68,7 +68,7 @@ final class GeniusAPIService {
                 return
             }
             do {
-                let decodedResponse = try decoder.decode(GeniusResponse.self, from: data)
+                let decodedResponse = try decoder.decode(GeniusSearchResponse.self, from: data)
                 if let song = decodedResponse.response.hits.first?.result {
                     self.errorPublisher.send(nil)
                     self.responsePublisher.send(song)
